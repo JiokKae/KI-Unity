@@ -31,6 +31,8 @@ public class Bullet : MonoBehaviour
             if(playerController != null)
 			{
                 // 상대방 PlayerController 컴포넌트의 Die() 메서드 실행
+                GetComponent<MeshRenderer>().materials[0].SetColor("_EmissionColor", playerController.GetComponent<MeshRenderer>().materials[0].GetColor("_EmissionColor"));
+
                 playerController.Die();
 			}
 		}

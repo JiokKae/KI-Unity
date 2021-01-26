@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRigidbody;   // 이동에 사용할 리지드바디 컴포넌트
     public float speed = 8f;    // 이동 속력
-
+    public float colorH;
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
@@ -26,10 +26,17 @@ public class PlayerController : MonoBehaviour
         Vector3 newVelocity = new Vector3(xSpeed, 0f, zSpeed);
         // 리지드바디의 속도에 newVelocity 할당
         playerRigidbody.velocity = newVelocity;
+
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        colorH += Time.deltaTime * 50f;
+        if (colorH >= 360f)
+            colorH -= 360f;
+        meshRenderer.materials[0].SetColor("_EmissionColor", Color.HSVToRGB(colorH/360f, 0.87f, 3.75f, true));
     }
 
     public void Die()
 	{
+        return;
         // 자신의 게임 오브젝트를 비활성화
         gameObject.SetActive(false);
 
