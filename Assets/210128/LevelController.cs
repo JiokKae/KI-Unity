@@ -75,4 +75,20 @@ public class LevelController : MonoBehaviour
 
         }
     }
+
+    public LevelData GetLevelData(float playerPosX)
+	{
+		foreach (var data in levelDatas)
+		{
+            if(data.time * 5 < playerPosX)
+			{
+                continue;
+			}
+            else
+			{
+                return data;
+			}
+		}
+        return levelDatas[levelDatas.Count-1];
+	}
 }

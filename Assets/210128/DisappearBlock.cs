@@ -19,7 +19,7 @@ public class DisappearBlock : MonoBehaviour
 		if(disappear)
 		{
 			material.SetColor("_Color", new Color(1, 0, 0, alpha));
-			alpha -= 1f / 2f * Time.deltaTime;
+			alpha -= 1f / 3f * Time.deltaTime;
 			if (alpha < 0)
 				gameObject.SetActive(false);
 		}

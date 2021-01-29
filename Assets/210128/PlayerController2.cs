@@ -8,10 +8,10 @@ public class PlayerController2 : MonoBehaviour
     SphereCollider sphereCollider;
     Animation anim;
 
-    public Camera _camera;
-
     public float jumpPower = 50f;
     public float maxJumpPower = 500f;
+    public Camera cam;
+    float camPitch;
     float addJumpPower;
 
     // Start is called before the first frame update
@@ -27,11 +27,23 @@ public class PlayerController2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.mousePosition.x > Screen.width / 2)
-            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
-        else
-            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        if (Input.GetKeyDown(KeyCode.F1))
+            cam.gameObject.SetActive(!cam.gameObject.activeSelf);
 
+        if (Input.mousePosition.x > Screen.width / 2)
+        {
+            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+        }
+        else
+        { 
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+
+        if (Input.GetAxis("Mouse Y") > 0)
+            camPitch += 90f * Time.deltaTime;
+        else if (Input.GetAxis("Mouse Y") < 0)
+            camPitch -= 90f * Time.deltaTime;
+        camPitch = Mathf.Clamp(camPitch, -90, 90);
         if (_rigidbody.velocity.y > 5)
 		{
             anim.Play("03_jumpup");
@@ -47,7 +59,7 @@ public class PlayerController2 : MonoBehaviour
 
         if(_rigidbody.velocity.magnitude < 0.01f)
 		{
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
             {
                 jumpPower += addJumpPower * Time.deltaTime;
                 jumpPower = Mathf.Clamp(jumpPower, 0f, maxJumpPower);
@@ -58,7 +70,7 @@ public class PlayerController2 : MonoBehaviour
 
                 transform.localScale = new Vector3(1f, scaleY, 1f);
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
             {
                 if(Input.mousePosition.x > Screen.width / 2)
                     _rigidbody.AddForce(jumpPower / 2, jumpPower, 0f);
@@ -78,7 +90,16 @@ public class PlayerController2 : MonoBehaviour
     }
 
 	private void LateUpdate()
-	{
-        _camera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+    {
+        if (Input.mousePosition.x > Screen.width / 2)
+        {
+            cam.transform.position = transform.position + new Vector3(0.5f, 1.5f, 0.0f);
+            cam.transform.rotation = Quaternion.Euler(-camPitch, 90f, 0f);
+        }
+        else
+        {
+            cam.transform.position = transform.position + new Vector3(-0.5f, 1.5f, 0.0f);
+            cam.transform.rotation = Quaternion.Euler(-camPitch, 270f, 0f);
+        }
 	}
 }
