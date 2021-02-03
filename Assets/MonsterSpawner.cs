@@ -8,7 +8,10 @@ public class MonsterSpawner : MonoBehaviour
     
     void Start()
     {
-        StartCoroutine(Spawn());
+		for (int i = 0; i < 20; i++)
+		{
+            Spawn();
+        }
     }
 
     void Update()
@@ -16,14 +19,10 @@ public class MonsterSpawner : MonoBehaviour
         
     }
 
-    IEnumerator Spawn()
+    void Spawn()
 	{
-		while (true)
-		{
-            GameObject skeleton = Instantiate(prefSkeleton, new Vector3(Random.Range(-40f, 40f), 0f, Random.Range(-40f, 40f)), Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
-            if(Random.Range(1f, 100f) < 20f)
-               skeleton.SendMessage("RGB");
-            yield return new WaitForSeconds(10f);
-		}
+        GameObject skeleton = Instantiate(prefSkeleton, new Vector3(Random.Range(-4f, 4f), 0f, Random.Range(-40f, 40f)), Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
+        if(Random.Range(1f, 100f) < 20f)
+           skeleton.SendMessage("RGB");
 	}
 }

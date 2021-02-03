@@ -27,4 +27,9 @@ public class PlayerCtrl : MonoBehaviour
         // 리지드바디의 속도에 newVelocity 할당
         _rigidbody.velocity = newVelocity;
     }
+
+	private void LateUpdate()
+	{
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -4.5f, 4.5f), transform.position.y, transform.position.z);
+	}
 }
