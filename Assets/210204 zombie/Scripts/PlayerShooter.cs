@@ -5,7 +5,7 @@
 public class PlayerShooter : MonoBehaviour {
     public Gun currGun;
     public Gun uzi; // 사용할 총
-    public Gun Hellwailer;
+    public Gun hellwailer;
 
     public Transform gunPivot; // 총 배치의 기준점
     public Transform leftHandMount; // 총의 왼쪽 손잡이, 왼손이 위치할 지점
@@ -18,17 +18,18 @@ public class PlayerShooter : MonoBehaviour {
         // 사용할 컴포넌트들을 가져오기
         playerInput = GetComponent<PlayerInput>();
         playerAnimator = GetComponent<Animator>();
-        currGun = Hellwailer;
+        Application.targetFrameRate = 60;
+        currGun = hellwailer;
     }
 
     private void OnEnable() {
         // 슈터가 활성화될 때 총도 함께 활성화
-        currGun.gameObject.SetActive(true);
+
     }
     
     private void OnDisable() {
         // 슈터가 비활성화될 때 총도 함께 비활성화
-        currGun.gameObject.SetActive(false);
+
     }
 
     private void Update() {
@@ -44,6 +45,18 @@ public class PlayerShooter : MonoBehaviour {
                 playerAnimator.SetTrigger("Reload");
 			}
 		}
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            currGun.gameObject.SetActive(false);
+            currGun = uzi;
+            currGun.gameObject.SetActive(true);
+        }
+        else if(Input.GetKey(KeyCode.Alpha2))
+		{
+            currGun.gameObject.SetActive(false);
+            currGun = hellwailer;
+            currGun.gameObject.SetActive(true);
+        }
 
         UpdateUI();
     }
